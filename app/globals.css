@@ -9,6 +9,7 @@
   --accent: #2563eb;
   --accent-deep: #1d4ed8;
   --accent-soft: #eff6ff;
+  --spark-cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAD1klEQVR4AbxUeUwUVxj/3uzKMrurcqiEFNbYNtiU2JoaTWm1JGKrbUxtylr6R9OSQg97xZZ64Yl3RGOixjsYibdGYzBeUVQwRhNv4xHjAWIihyABdmcXd3f8vWVBFoWdeZO4+X4z33vf936/37x5OxIZ+Kmq6gCSDFCQIQMQHgykAMJhyEBlbWBoRU3gQ2F1LDRkoKLGN6KyxjccPMJhyECzmzKaPepoYXUsFDaAw/fRg2pf7KNafwLyVHAJhbABqH134oqXSq+1IiUnv4hAyACe2F5VF/jrzmM/XX/ooyfPAn9jTn5jBiD07/ZTig33YOw+44lH8jugO3TvAJ50YIui5kG0Q2xbqUKKl6ahltAxqTHRZQACFvCWLN3j6uvyqkjbosmt0uoSFxc/gB5z26y2qy4DoNy66agyZE+5B2l4bD6q0P5z3jTMrgM0hyYDeKpE4CLEswr3uboln7GlmXaXeXLRexKI6baxU6FHAyCRgcme53R14U7XsJ7EOaeKtzK7uIVWHXSPbsUfBGt/4fM94bUGsPB9YN6dKn/1wl2ulZ/8Vz+g+KTSE09YbU2Jm9Kn1CfDyMaHNf5acE0HHGFNoYGEQgzw8a1H/kn7ypXtRcfctbO2ttz8NK9h7tcFz/oUn1AIpz7Urv1W36QSN/JFfkP/jBkNS+bvaKksOu6u3FuuFOELmgPNEUDf9h3gu4cNJD8urSYTkcS0i0XqfO4j8geIAgGSSCVJ8TL+T+EKTGKMNQIXUh2m9c5R8o85Y61JBT/Y3y1fHjenZF5s/a9fytTHyiJpvFKPsTH6Y7yVDhXE1pUVxs0E56DccdbkiZ/J2akDTRu4JtDYvgNhBCjcBxa8l2zu93+m7c+zy+Orsz/X/qXlwmdXxD+e/I01Z3CSeQC4FgMVYSKhwWsNhGrBGxaujY6iD/KzbOenOju+vsFa1wvDRi3OthOES6PMNIQxVtS1p+s4ogG+AER1QFruOHlX3rfdm1j2c29yjozeiN4MoJGvjQRNBjqRZP/2lXw9c2R0p6m2lJ+VCWmWMowmAZpDlwE8lRfM46c5bU2WXshCEWtn9M8E2xMMM9ETwF1z6DLAWSFQFWNniyaOerkLP42RCe88H7WnvEcPdBsIka/6Pl0OijEcvKx0+R7miwHdIWSAMeZJectUmNRPouEpvSi+N1uAOV1b3+5UyEBo8ZGxwyw0ZmiUivFhQCiEDeCJb7yTaG5KjDPdRR58HSIOhA1wMZz+MpuFnea5KAwZeDvRfN7RX7okKs7XGTIwKEG67Egw3eJEojBkAKK3gQdAtxGp8AIAAP//I7dCyAAAAAZJREFUAwDDa12D7bz/xAAAAABJRU5ErkJggg==") 16 16;
 }
 
 * {
@@ -231,7 +232,9 @@ a:focus-visible {
   display: block;
   border-radius: 999px;
   text-decoration: none;
-  cursor: grab;
+  /* Blue sparkle cursor matching the Turboism star shared across the sibling
+     site navigation bars. White halo keeps it legible over the blue names. */
+  cursor: var(--spark-cursor), grab;
   touch-action: none;
   user-select: none;
   pointer-events: auto;
