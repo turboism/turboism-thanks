@@ -1,6 +1,8 @@
 # Turboism Thanks
 
-The public acknowledgements site canonically served at [turboism.dev/thanks](https://turboism.dev/thanks). The legacy `thanks.turboism.dev` hostname redirects to the canonical path while this app remains independently deployed.
+# Turboism Thanks
+
+The public acknowledgements site served at [thanks.turboism.dev](https://thanks.turboism.dev). `turboism.dev/thanks` issues a permanent redirect to `thanks.turboism.dev/thanks`; the star link in the Turboism site header points to the subdomain directly. The app is deployed to Vercel from `github.com/turboism/turboism-thanks` via Git integration (push to `main` auto-deploys).
 
 ## Development
 
