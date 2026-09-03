@@ -6,12 +6,7 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "https://turboism.dev/thanks",
-      "permanent": true
-    },
-    {
-      "source": "/contributors.json",
-      "destination": "https://turboism.dev/thanks/contributors.json",
+      "destination": "/thanks",
       "permanent": true
     }
   ]

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://turboism.dev"),
+  metadataBase: new URL("https://thanks.turboism.dev"),
   title: "Turboism Thanks",
   description: "A public record of gratitude to the people who have shaped Turboism.",
   alternates: {
