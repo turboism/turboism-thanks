@@ -1,0 +1,59 @@
+name: Integrate unified site shell
+on:
+  push:
+    branches: [style/all-sites-20260908]
+    paths: [.github/workflows/integrate-brand.yml]
+permissions:
+  contents: write
+jobs:
+  integrate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: style/all-sites-20260908
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Vendor and integrate the reviewed shell
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/brand-source"
+          git -C "$RUNNER_TEMP/brand-source" fetch --depth=1 https://github.com/turboism/turboism-docs.git 69ce5385e89ec3d621257981433939b3629f5e2d
+          git -C "$RUNNER_TEMP/brand-source" checkout --detach FETCH_HEAD
+          cp "$RUNNER_TEMP/brand-source/brand/"* brand/
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('app/layout.tsx');s=p.read_text();s=re.sub(r'import \{[^\n]+\} from [\'\"]next/font/google[\'\"];',"import { brandFontVariables } from '@/brand/fonts';",s);s=re.sub(r'const geist(?:Sans|Mono)\s*=.*?;\n','',s);s=s.replace('${geistSans.variable} ${geistMono.variable}','${brandFontVariables}').replace("import '@/brand/brand.css';","import '@/brand/brand.css';\nimport '@/brand/typography.css';");p.write_text(s)
+          p=Path('app/page.tsx');s=p.read_text().replace(' const [contributors,setContributors]'," useEffect(()=>{const stored=document.cookie.split('; ').find(value=>value.startsWith('turboism-language='))?.split('=')[1];if(stored==='en'||stored==='zh'||stored==='ja'){const timer=setTimeout(()=>setLanguage(stored),0);return()=>clearTimeout(timer);}},[]);\n const [contributors,setContributors]");s=s.replace("useEffect(()=>{document.documentElement.lang=language==='zh'?'zh-CN':language;},[language]);","function changeLanguage(next:BrandLocale){setLanguage(next);const domain=location.hostname==='turboism.dev'||location.hostname.endsWith('.turboism.dev')?'; Domain=.turboism.dev':'';document.cookie=`turboism-language=${next}; Path=/; Max-Age=31536000; SameSite=Lax${domain}${location.protocol==='https:'?'; Secure':''}`;}");s=s.replace('onChange={setLanguage}','onChange={changeLanguage}');p.write_text(s)
+          PY
+          git diff --check
+          git add brand app/layout.tsx app/page.tsx
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'style: match shared header and self-hosted fonts on the Thanks page'
+      - run: npm ci
+      - run: node --test brand/brand.test.mjs
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+      - name: Browser verification
+        env:
+          PLAYWRIGHT_MODULE: ${{ runner.temp }}/brand-qa/node_modules/playwright
+          BRAND_SITE: thanks
+          BRAND_ROUTE: /thanks
+        run: |
+          npm install --prefix "$RUNNER_TEMP/brand-qa" playwright@1.61.1
+          "$RUNNER_TEMP/brand-qa/node_modules/.bin/playwright" install --with-deps chromium
+          npm start > "$RUNNER_TEMP/site.log" 2>&1 &
+          node brand/verify-browser.mjs
+      - name: Publish only the tested review branch
+        run: |
+          git rev-parse HEAD > artifacts/brand/tested-commit.txt
+          git push origin HEAD:refs/heads/style/all-sites-20260908
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: unified-brand-checks
+          path: artifacts/brand
