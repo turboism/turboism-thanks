@@ -27,10 +27,11 @@ jobs:
           if node --test brand/retired-chat.test.mjs; then echo 'Expected the old navigation regression to fail'; exit 1; fi
           python3 "$script" apply
           node --test brand/retired-chat.test.mjs brand/brand.test.mjs
-      - name: Release checks and build
+      - name: Typecheck, lint and build
         run: |
           npm ci
-          npm run release:check
+          npm run typecheck
+          npm run lint
           npm run build
       - name: Real browser checks
         env:
