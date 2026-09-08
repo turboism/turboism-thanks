@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { brandFontVariables } from '@/brand/fonts';
 import './globals.css';
 import '@/brand/brand.css';
-const geistSans=Geist({variable:'--font-sans',subsets:['latin']});
-const geistMono=Geist_Mono({variable:'--font-mono',subsets:['latin']});
+import '@/brand/typography.css';
 export const metadata:Metadata={metadataBase:new URL('https://turboism.dev'),title:'Turboism Thanks',description:'A public record of gratitude to the people who have shaped Turboism.',alternates:{canonical:'/thanks'},openGraph:{title:'Turboism Thanks',description:'A public record of gratitude to the people who have shaped Turboism.',url:'https://turboism.dev/thanks',siteName:'Turboism Thanks',type:'website'}};
-export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){return <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}><body>{children}</body></html>;}
+export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){return <html lang="en" className={`${brandFontVariables}`}><body>{children}</body></html>;}
