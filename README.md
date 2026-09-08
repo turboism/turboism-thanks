@@ -1,8 +1,6 @@
 # Turboism Thanks
 
-# Turboism Thanks
-
-The public acknowledgements site served at [thanks.turboism.dev](https://thanks.turboism.dev). `turboism.dev/thanks` issues a permanent redirect to `thanks.turboism.dev/thanks`; the star link in the Turboism site header points to the subdomain directly. The app is deployed to Vercel from `github.com/turboism/turboism-thanks` via Git integration (push to `main` auto-deploys).
+The public acknowledgements site is available at [turboism.dev/thanks](https://turboism.dev/thanks). The app is independently deployed to Vercel at `thanks.turboism.dev`; the Turboism apex site serves it at `/thanks` without changing the browser URL. Pushes to `main` auto-deploy through the Vercel Git integration.
 
 ## Development
 
