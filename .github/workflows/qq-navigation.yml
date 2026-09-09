@@ -26,7 +26,7 @@ jobs:
           BRAND_ROUTE: /thanks
         run: |
           npm install --prefix "$RUNNER_TEMP/qq-qa" playwright@1.61.1
-          "$RUNNER_TEMP/qq-qa/node_modules/.bin/playwright" install --with-deps chromium
+          "$RUNNER_TEMP/qq-qa/node_modules/.bin/playwright" install chromium
           npm start > "$RUNNER_TEMP/site.log" 2>&1 &
           node brand/verify-browser.mjs
           node --input-type=module <<'JS'
