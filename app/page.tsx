@@ -22,9 +22,14 @@ type FlowerSpecies =
   | 'sakura'
   | 'sunflower'
   | 'cosmos'
-  | 'rose'
+  | 'camellia'
   | 'daisy'
-  | 'lily';
+  | 'lily'
+  | 'plum'
+  | 'hydrangea'
+  | 'narcissus'
+  | 'forgetmenot'
+  | 'clematis';
 
 type FloatingNode = {
   id: string;
@@ -49,9 +54,14 @@ const FLOWER_SPECIES_LIST: Array<{ species: FlowerSpecies; color: string }> = [
   { species: 'sakura', color: '#F0829B' },
   { species: 'sunflower', color: '#E8B228' },
   { species: 'cosmos', color: '#DF5B8C' },
-  { species: 'rose', color: '#D84A62' },
+  { species: 'camellia', color: '#D94B64' },
   { species: 'daisy', color: '#7A68DC' },
   { species: 'lily', color: '#4984E8' },
+  { species: 'plum', color: '#E05263' },
+  { species: 'hydrangea', color: '#5A95F0' },
+  { species: 'narcissus', color: '#E8A829' },
+  { species: 'forgetmenot', color: '#479BF0' },
+  { species: 'clematis', color: '#8362E6' },
 ];
 
 const STAR_PALETTES: StarPalette[] = [
@@ -212,39 +222,43 @@ function RealWorldFlowerSvg({ species }: { species: FlowerSpecies }) {
         </svg>
       );
 
-    case 'rose':
+    case 'camellia':
       return (
         <svg className="thanks-star-svg" viewBox="0 0 64 64" focusable="false">
-          {[0, 72, 144, 216, 288].map(deg => (
+          {[0, 60, 120, 180, 240, 300].map(deg => (
             <path
               key={`o-${deg}`}
               transform={`rotate(${deg} 32 32)`}
-              d="M 32 32 C 17 30 14 14 26 9 C 34 6 44 12 40 26 Z"
-              fill="#D84A62"
+              d="M 32 30 C 21 26 19 11 32 7.5 C 45 11 43 26 32 30 Z"
+              fill="#D94B64"
               stroke="#FCFBF7"
-              strokeWidth="1.3"
+              strokeWidth="1.2"
               strokeLinejoin="round"
             />
           ))}
-          {[36, 108, 180, 252, 324].map(deg => (
+          {[30, 90, 150, 210, 270, 330].map(deg => (
             <path
               key={`m-${deg}`}
-              transform={`rotate(${deg} 32 32) translate(32 32) scale(0.68) translate(-32 -32)`}
-              d="M 32 32 C 17 30 14 14 26 9 C 34 6 44 12 40 26 Z"
-              fill="#E66A80"
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 30.5 C 23.5 27 22 15 32 12 C 42 15 40.5 27 32 30.5 Z"
+              fill="#EA6B82"
               stroke="#FCFBF7"
-              strokeWidth="1.6"
+              strokeWidth="1.2"
               strokeLinejoin="round"
             />
           ))}
-          <circle cx="32" cy="32" r="7.5" fill="#C2364E" stroke="#FCFBF7" strokeWidth="1.3" />
-          <path
-            d="M 29.5 31.5 C 29.5 28.8 34.8 28.5 34.8 31.8 C 34.8 35 28.2 35.2 27.8 30.8"
-            fill="none"
-            stroke="#FCFBF7"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-          />
+          {[0, 60, 120, 180, 240, 300].map(deg => (
+            <path
+              key={`i-${deg}`}
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 31 C 26.5 28.5 25.5 20.5 32 18 C 38.5 20.5 37.5 28.5 32 31 Z"
+              fill="#F48B9E"
+              stroke="#FCFBF7"
+              strokeWidth="1.1"
+              strokeLinejoin="round"
+            />
+          ))}
+          <circle cx="32" cy="32" r="4.8" fill="#E8B532" stroke="#FCFBF7" strokeWidth="1.2" />
         </svg>
       );
 
@@ -297,6 +311,146 @@ function RealWorldFlowerSvg({ species }: { species: FlowerSpecies }) {
             </g>
           ))}
           <circle cx="32" cy="32" r="3.2" fill="#E8A229" />
+        </svg>
+      );
+
+    case 'plum':
+      return (
+        <svg className="thanks-star-svg" viewBox="0 0 64 64" focusable="false">
+          {[0, 72, 144, 216, 288].map(deg => (
+            <circle
+              key={deg}
+              transform={`rotate(${deg} 32 32)`}
+              cx="32"
+              cy="17.5"
+              r="10.2"
+              fill="#E05263"
+              stroke="#FCFBF7"
+              strokeWidth="1.3"
+            />
+          ))}
+          <circle cx="32" cy="32" r="6.2" fill="#B83246" />
+          {[0, 36, 72, 108, 144, 180, 216, 252, 288, 324].map(deg => (
+            <g key={`st-${deg}`} transform={`rotate(${deg} 32 32)`}>
+              <line x1="32" y1="32" x2="32" y2="22.8" stroke="#FCFBF7" strokeWidth="1.05" strokeLinecap="round" />
+              <circle cx="32" cy="22.2" r="1.35" fill="#F2C94C" />
+            </g>
+          ))}
+          <circle cx="32" cy="32" r="2.6" fill="#F2C94C" />
+        </svg>
+      );
+
+    case 'hydrangea':
+      return (
+        <svg className="thanks-star-svg" viewBox="0 0 64 64" focusable="false">
+          {[0, 90, 180, 270].map((deg, idx) => (
+            <path
+              key={deg}
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 30.5 C 21 26.5 19.5 14 32 7.5 C 44.5 14 43 26.5 32 30.5 Z"
+              fill={idx % 2 === 0 ? '#5A95F0' : '#74A9F7'}
+              stroke="#FCFBF7"
+              strokeWidth="1.3"
+              strokeLinejoin="round"
+            />
+          ))}
+          {[0, 90, 180, 270].map(deg => (
+            <line
+              key={`v-${deg}`}
+              transform={`rotate(${deg} 32 32)`}
+              x1="32"
+              y1="32"
+              x2="32"
+              y2="19"
+              stroke="#FCFBF7"
+              strokeWidth="1.1"
+              strokeLinecap="round"
+            />
+          ))}
+          <circle cx="32" cy="32" r="4.2" fill="#2E5CB8" stroke="#FCFBF7" strokeWidth="1.2" />
+        </svg>
+      );
+
+    case 'narcissus':
+      return (
+        <svg className="thanks-star-svg" viewBox="0 0 64 64" focusable="false">
+          {[0, 60, 120, 180, 240, 300].map(deg => (
+            <path
+              key={deg}
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 30.5 C 24 25 23.5 13.5 32 7 C 40.5 13.5 40 25 32 30.5 Z"
+              fill="#F3CA4D"
+              stroke="#FCFBF7"
+              strokeWidth="1.2"
+              strokeLinejoin="round"
+            />
+          ))}
+          <circle cx="32" cy="32" r="9.2" fill="#E66432" stroke="#FCFBF7" strokeWidth="1.3" />
+          <circle cx="32" cy="32" r="5.6" fill="#F7DC6F" />
+          <circle cx="32" cy="32" r="2.2" fill="#E66432" />
+        </svg>
+      );
+
+    case 'forgetmenot':
+      return (
+        <svg className="thanks-star-svg" viewBox="0 0 64 64" focusable="false">
+          {[0, 72, 144, 216, 288].map(deg => (
+            <path
+              key={deg}
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 30.5 C 21.5 27 19.5 13 28.5 9.2 C 30.8 8.2 33.2 8.2 35.5 9.2 C 44.5 13 42.5 27 32 30.5 Z"
+              fill="#479BF0"
+              stroke="#FCFBF7"
+              strokeWidth="1.25"
+              strokeLinejoin="round"
+            />
+          ))}
+          <circle cx="32" cy="32" r="6.8" fill="#FCFBF7" />
+          <circle cx="32" cy="32" r="5.2" fill="#F2C138" />
+          <circle cx="32" cy="32" r="2.1" fill="#2A5C9E" />
+        </svg>
+      );
+
+    case 'clematis':
+      return (
+        <svg className="thanks-star-svg" viewBox="0 0 64 64" focusable="false">
+          {[0, 90, 180, 270].map(deg => (
+            <path
+              key={`o-${deg}`}
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 31 C 25.5 24 25.5 13 32 6.5 C 38.5 13 38.5 24 32 31 Z"
+              fill="#7A56E0"
+              stroke="#FCFBF7"
+              strokeWidth="1.15"
+              strokeLinejoin="round"
+            />
+          ))}
+          {[45, 135, 225, 315].map(deg => (
+            <path
+              key={`i-${deg}`}
+              transform={`rotate(${deg} 32 32)`}
+              d="M 32 31 C 26 24.5 26 14 32 7.5 C 38 14 38 24.5 32 31 Z"
+              fill="#9474F2"
+              stroke="#FCFBF7"
+              strokeWidth="1.15"
+              strokeLinejoin="round"
+            />
+          ))}
+          <circle cx="32" cy="32" r="6.8" fill="#FCFBF7" />
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(deg => (
+            <line
+              key={`s-${deg}`}
+              transform={`rotate(${deg} 32 32)`}
+              x1="32"
+              y1="32"
+              x2="32"
+              y2="24"
+              stroke="#462E96"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
+          ))}
+          <circle cx="32" cy="32" r="3" fill="#F2C438" />
         </svg>
       );
   }
