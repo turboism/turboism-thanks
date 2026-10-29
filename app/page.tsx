@@ -477,6 +477,15 @@ function pickStarPositions(count: number, random: (min: number, max: number) => 
   return positions;
 }
 
+function shuffleArray<T>(items: readonly T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 export default function HomePage() {
   const [language, setLanguage] = useState<BrandLocale>('en');
   useEffect(() => {
@@ -498,69 +507,49 @@ export default function HomePage() {
         if (!Array.isArray(records)) return;
         const random = (min: number, max: number) => min + Math.random() * (max - min);
         const validRecords: Array<{ name: string; profileUrl?: string }> = [];
+        const seenNames = new Set<string>();
         for (const record of records) {
           if (
             !record ||
             typeof record !== 'object' ||
             typeof record.name !== 'string' ||
-            (record.profileUrl !== undefined && typeof record.profileUrl !== 'string')
+            (record.profileUrl !== undefined && typeof record.profileUrl !== 'string') ||
+            seenNames.has(record.name)
           ) {
             continue;
           }
+          seenNames.add(record.name);
           validRecords.push({ name: record.name, profileUrl: record.profileUrl });
         }
-        const flowerCount = Math.max(validRecords.length, FLOWER_SPECIES_LIST.length);
-        const totalNodes = validRecords.length + flowerCount;
-        const positions = pickStarPositions(totalNodes, random);
-        const list: FloatingNode[] = [];
 
-        validRecords.forEach((record, index) => {
-          const starPos = positions[index];
-          const flowerEntry = FLOWER_SPECIES_LIST[index % FLOWER_SPECIES_LIST.length];
+        const positions = pickStarPositions(validRecords.length, random);
+        let flowerDeck: Array<{ species: FlowerSpecies; color: string }> = [];
 
-          list.push({
-            id: `star-${record.name}-${index}`,
-            name: record.name,
-            profileUrl: record.profileUrl,
-            kind: 'star',
-            x: starPos.x,
-            y: starPos.y,
-            dx: (Math.random() < 0.5 ? -1 : 1) * random(16, 34),
-            dy: (Math.random() < 0.5 ? -1 : 1) * random(14, 26),
-            duration: random(26, 44),
-            delay: random(-40, 0),
-            rotation: random(-22, 22),
-            scale: random(0.92, 1.12),
-            shapeIndex: index % STAR_SHAPES.length,
-            paletteIndex: index % STAR_PALETTES.length,
-            flowerSpecies: flowerEntry.species,
-          });
-        });
+        const list: FloatingNode[] = validRecords.map((record, index) => {
+          if (flowerDeck.length === 0) {
+            flowerDeck = shuffleArray(FLOWER_SPECIES_LIST);
+          }
+          const flowerEntry = flowerDeck.pop() ?? FLOWER_SPECIES_LIST[Math.floor(Math.random() * FLOWER_SPECIES_LIST.length)];
+          const pos = positions[index];
 
-        for (let fIdx = 0; fIdx < flowerCount; fIdx++) {
-          const record = validRecords[fIdx % validRecords.length];
-          if (!record) continue;
-          const flowerPos = positions[validRecords.length + fIdx];
-          const flowerEntry = FLOWER_SPECIES_LIST[fIdx % FLOWER_SPECIES_LIST.length];
-
-          list.push({
-            id: `flower-${flowerEntry.species}-${fIdx}`,
+          return {
+            id: `contributor-${record.name}`,
             name: record.name,
             profileUrl: record.profileUrl,
             kind: 'flower',
-            x: flowerPos.x,
-            y: flowerPos.y,
+            x: pos.x,
+            y: pos.y,
             dx: (Math.random() < 0.5 ? -1 : 1) * random(14, 30),
             dy: (Math.random() < 0.5 ? -1 : 1) * random(12, 24),
             duration: random(28, 46),
             delay: random(-40, 0),
             rotation: random(-24, 24),
             scale: random(0.96, 1.14),
-            shapeIndex: fIdx % STAR_SHAPES.length,
-            paletteIndex: fIdx % STAR_PALETTES.length,
+            shapeIndex: index % STAR_SHAPES.length,
+            paletteIndex: index % STAR_PALETTES.length,
             flowerSpecies: flowerEntry.species,
-          });
-        }
+          };
+        });
 
         setContributors(list);
       } catch {
