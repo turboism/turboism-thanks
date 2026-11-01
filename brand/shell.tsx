@@ -1,19 +1,22 @@
 "use client";
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useMemo, useRef } from 'react';
 import type { ReactNode } from 'react';
 import navigation from './navigation.json';
 import { attachQQ, qqMarkup } from './qq.mjs';
 export type BrandLocale = 'en' | 'zh' | 'ja' | 'ko';
-export type BrandSite = 'home' | 'docs' | 'sdk' | 'plugins' | 'learn' | 'sponsor' | 'thanks' | 'download';
+export type BrandSite = 'home' | 'docs' | 'sdk' | 'plugins' | 'learn' | 'sponsor' | 'thanks' | 'download' | 'about';
 function BrandQQ({ locale }: { locale: BrandLocale }) {
   const root = useRef<HTMLSpanElement>(null);
+  // React compares dangerouslySetInnerHTML by object identity and rewrites innerHTML whenever it changes, which would
+  // discard the listeners attachQQ added (and re-disable the trigger) on any parent re-render. Keep it stable per locale.
+  const html = useMemo(() => ({ __html: qqMarkup(locale) }), [locale]);
   useEffect(() => { if (root.current) return attachQQ(root.current); }, [locale]);
-  return <span className="tb-qq-host" ref={root} dangerouslySetInnerHTML={{ __html: qqMarkup(locale) }}/>;
+  return <span className="tb-qq-host" ref={root} dangerouslySetInnerHTML={html}/>;
 }
 export function BrandSocials({ locale = 'en' }: { locale?: BrandLocale } = {}) {
   return <div className="tb-socials">{navigation.socials.map(social => <Fragment key={social.name}><a className="tb-icon" href={social.href} target="_blank" rel="noopener noreferrer" aria-label={`Turboism ${social.name}`} title={social.name}><svg viewBox="0 0 24 24" aria-hidden="true"><path d={social.path}/></svg></a>{social.name === 'Discord' && <BrandQQ locale={locale}/>}</Fragment>)}</div>;
 }
-export function BrandHeader({ active, locale = 'en', languageControl }: { active: BrandSite; locale?: BrandLocale; languageControl?: ReactNode }) {
+export function BrandHeader({ active, locale = 'en', languageControl }: { active?: BrandSite; locale?: BrandLocale; languageControl?: ReactNode }) {
   const text = navigation.labels[locale];
   useEffect(() => { document.documentElement.lang = locale === 'zh' ? 'zh-CN' : locale; }, [locale]);
   const nav = <nav className="tb-nav" aria-label={text.nav}>{navigation.links.map(([key, href]) => <a key={key} href={href} aria-current={key === active ? 'page' : undefined}>{text[key as BrandSite]}</a>)}</nav>;
