@@ -457,10 +457,10 @@ function RealWorldFlowerSvg({ species }: { species: FlowerSpecies }) {
 }
 
 const text = {
-  ko: { eyebrow: '당신에게 드리는 꽃다발', title: '감사합니다.', contributors: '기여자', profile: '프로필 열기' },
-  en: { eyebrow: 'A bouquet for you', title: 'Thank you.', contributors: 'Contributors', profile: 'Open profile' },
-  zh: { eyebrow: '献给你的一束花', title: '谢谢。', contributors: '贡献者', profile: '打开个人主页' },
-  ja: { eyebrow: 'あなたへ贈る花束', title: 'ありがとう。', contributors: 'コントリビューター', profile: 'プロフィールを開く' },
+  ko: { title: '감사합니다', contributors: '기여자', profile: '프로필 열기' },
+  en: { title: 'Thank you', contributors: 'Contributors', profile: 'Open profile' },
+  zh: { title: '谢谢', contributors: '贡献者', profile: '打开个人主页' },
+  ja: { title: 'ありがとう', contributors: 'コントリビューター', profile: 'プロフィールを開く' },
 };
 
 function FloatingContributor({ contributor, profile }: { contributor: FloatingNode; profile: string }) {
@@ -725,7 +725,6 @@ export default function HomePage() {
       <BrandHeader active="thanks" locale={language} languageControl={<BrandLanguage locale={language} onChange={changeLanguage} />} />
       <main className="thanks-scene">
         <section className="thanks-title" aria-labelledby="thanks-heading">
-          <p>{copy.eyebrow}</p>
           <h1 id="thanks-heading">{copy.title}</h1>
         </section>
         <div className="thanks-field" aria-label={copy.contributors}>

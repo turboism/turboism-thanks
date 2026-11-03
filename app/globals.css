@@ -41,13 +41,6 @@ a {
   padding: 36px 20px;
 }
 
-.thanks-title p {
-  color: var(--tb-violet);
-  font: 12px var(--tb-sans);
-  letter-spacing: 0.1em;
-  margin: 0 0 28px;
-}
-
 .thanks-title h1 {
   position: relative;
   margin: 0;
@@ -216,9 +209,6 @@ a {
 @media (max-width: 700px) {
   .thanks-title h1 {
     font-size: clamp(56px, 16vw, 96px);
-  }
-  .thanks-title p {
-    font-size: 11px;
   }
   .thanks-star-visual {
     width: 36px;
