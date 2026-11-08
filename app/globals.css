@@ -16,12 +16,15 @@ a {
 .thanks-page {
   display: flex;
   flex-direction: column;
-  min-height: max(700px, 100svh);
+  /* The banner reserves its own body padding and the header floats, so the page owns exactly the remaining viewport. */
+  height: calc(100svh - var(--tb-announcement-height, 0px));
+  overflow: hidden;
 }
 
 .thanks-scene {
   flex: 1;
-  min-height: 570px;
+  /* Flex children shrink to zero only when the minimum size is released, which keeps the page inside one screen. */
+  min-height: 0;
   margin-top: var(--tb-header-height);
   position: relative;
   overflow: hidden;
